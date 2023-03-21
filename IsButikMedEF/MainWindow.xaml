@@ -1,0 +1,48 @@
+﻿<Window x:Class="IsButikMedEF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IsButikMedEF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Vare">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="DgVarer" HorizontalAlignment="Left" Height="293" Margin="281,82,0,0" VerticalAlignment="Top" Width="373" ItemsSource="{Binding VareList}"/>
+                    <TextBox x:Name="TbxNavn" HorizontalAlignment="Left" Margin="52,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="TbxPris" HorizontalAlignment="Left" Margin="52,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="TbxBeskrivelse" HorizontalAlignment="Left" Margin="52,203,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Height="172"/>
+                    <Label x:Name="LabelNavn" Content="Navn:" HorizontalAlignment="Left" Margin="52,56,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="LabelPris" Content="Pris:" HorizontalAlignment="Left" Margin="54,114,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="LabelBeskrivelse" Content="Beskrivelse:" HorizontalAlignment="Left" Margin="54,177,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="BtnOpretIs" Content="Opret" HorizontalAlignment="Left" Margin="177,340,0,0" VerticalAlignment="Top" Height="35" Width="62" Click="BtnOpretIs_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Bestillinger">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="774*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="DgBestillinger" HorizontalAlignment="Left" Height="263" Margin="347,28,0,0" VerticalAlignment="Top" Width="372" ItemsSource="{Binding BestillingsList}" Grid.Column="2" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Navn" Binding="{Binding Vare.Navn}"/>
+                            <DataGridTextColumn Header="Antal" Binding="{Binding Antal}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <ComboBox x:Name="CbxIs" Grid.Column="2" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CbxIs_SelectionChanged" ItemsSource="{Binding VareList}" DisplayMemberPath="Navn"/>
+                    <TextBox x:Name="TbxAntal" Grid.Column="2" HorizontalAlignment="Left" Margin="136,45,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="75" Height="22"/>
+                    <Button x:Name="BtnBestil" Grid.Column="2" Content="Bestil ->" HorizontalAlignment="Left" Margin="216,45,0,0" VerticalAlignment="Top" Width="68" Height="22" Click="BtnBestil_Click"/>
+                    <Label x:Name="LabelCbxIs" Grid.Column="2" Content="Vare:" HorizontalAlignment="Left" Margin="0,19,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="LabelTbxAntal" Grid.Column="2" Content="Antal:" HorizontalAlignment="Left" Margin="136,14,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TbxBemærkninger" Grid.Column="1" HorizontalAlignment="Left" Height="117" Margin="10,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193" Grid.ColumnSpan="2"/>
+                    <Label x:Name="LabelBemærkninger" Grid.Column="2" Content="Bemærkninger:" HorizontalAlignment="Left" Margin="0,81,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
