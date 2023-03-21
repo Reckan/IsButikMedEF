@@ -10,7 +10,14 @@
         <TabControl>
             <TabItem Header="Vare">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="DgVarer" HorizontalAlignment="Left" Height="293" Margin="281,82,0,0" VerticalAlignment="Top" Width="373" ItemsSource="{Binding VareList}"/>
+                    <DataGrid x:Name="DgVarer" HorizontalAlignment="Left" Height="293" Margin="281,82,0,0" VerticalAlignment="Top" Width="373" ItemsSource="{Binding VareList}" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Vare" Binding="{Binding Navn}"/>
+                            <DataGridTextColumn Header="Pris" Binding="{Binding Pris}"/>
+                            <DataGridTextColumn Header="Beskrivelse" Binding="{Binding Beskrivelse}"/>
+                            <DataGridTextColumn Header="Antal bestillinger" Binding="{Binding Bestillinger.Count}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                     <TextBox x:Name="TbxNavn" HorizontalAlignment="Left" Margin="52,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="TbxPris" HorizontalAlignment="Left" Margin="52,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
                     <TextBox x:Name="TbxBeskrivelse" HorizontalAlignment="Left" Margin="52,203,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Height="172"/>
@@ -31,6 +38,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Navn" Binding="{Binding Vare.Navn}"/>
                             <DataGridTextColumn Header="Antal" Binding="{Binding Antal}"/>
+                            <DataGridTextColumn Header="Bemærkninger" Binding="{Binding Bemærkninger}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <ComboBox x:Name="CbxIs" Grid.Column="2" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CbxIs_SelectionChanged" ItemsSource="{Binding VareList}" DisplayMemberPath="Navn"/>
