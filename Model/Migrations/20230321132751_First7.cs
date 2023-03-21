@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace IsButikMedEF.Migrations
+namespace Model.Migrations
 {
     /// <inheritdoc />
-    public partial class First2 : Migration
+    public partial class First7 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

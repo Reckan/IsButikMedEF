@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace IsButikMedEF.Migrations
+namespace Model.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class First0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,7 @@ namespace IsButikMedEF.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Navn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Beskrivelse = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Pris = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
@@ -31,7 +32,8 @@ namespace IsButikMedEF.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Antal = table.Column<int>(type: "int", nullable: false),
-                    VareId = table.Column<int>(type: "int", nullable: false)
+                    VareId = table.Column<int>(type: "int", nullable: false),
+                    Bemærkninger = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

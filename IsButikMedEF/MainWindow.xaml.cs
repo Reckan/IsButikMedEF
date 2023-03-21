@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataClass;
+using FuncLayer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,28 +24,12 @@ namespace IsButikMedEF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Model Model { get; set; } = new();
-        public ObservableCollection<Vare> VareList
-        {
-            get
-            {
-                return Model.Varer.Local.ToObservableCollection();
-            }
-        }
-        public ObservableCollection<Bestilling> BestillingsList
-        {
-            get
-            {
-                return Model.Bestillinger.Local.ToObservableCollection();
-            }
-        }
+        public Func Func { get; set; } = new();
         public MainWindow()
         {
             InitializeComponent();
-            Model = new Model();
-            Model.Varer.Load();
-            Model.Bestillinger.Load();
-            DataContext = this;
+
+            DataContext = Func;
         }
 
         private void BtnOpretIs_Click(object sender, RoutedEventArgs e)
@@ -57,8 +43,7 @@ namespace IsButikMedEF
                     Pris = double.Parse(TbxPris.Text),
 
                 };
-                VareList.Add(vare);
-                Model.SaveChanges();
+                Func.OpretIs(vare);
                 TbxNavn.Text = "";
                 TbxPris.Text = "1";
                 TbxBeskrivelse.Text = "";
@@ -86,8 +71,7 @@ namespace IsButikMedEF
                     Vare = CbxIs.SelectedItem as Vare,
 
                 };
-                Model.Bestillinger.Add(bestilling);
-                Model.SaveChanges();
+                Func.Bestil(bestilling);
                 TbxAntal.Text = "1";
             }
             catch (Exception ex)
