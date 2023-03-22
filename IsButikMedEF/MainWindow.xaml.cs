@@ -43,7 +43,7 @@ namespace IsButikMedEF
             }
         }
 
-        private void BtnOpretIs_Click(object sender, RoutedEventArgs e)
+        private void BtnGemIs_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -52,7 +52,6 @@ namespace IsButikMedEF
                 TbxNavn.Text = "";
                 TbxPris.Text = "";
                 TbxBeskrivelse.Text = "";
-
             }
             catch (Exception ex)
             {
@@ -71,10 +70,28 @@ namespace IsButikMedEF
             {
                 Func.Bestil((Vare)CbxIs.SelectedItem, int.Parse(TbxAntal.Text), TbxBemærkninger.Text);
                 TbxAntal.Text = "1";
+                TbxBemærkninger.Text = "";
+                CbxIs.SelectedItem = null;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Fejl i oprettelse af bestilling");
+            }
+        }
+
+        private void BtnSletVare_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (DgVarer.SelectedItem == null)
+                {
+                    throw new ArgumentNullException("Kan ikke slette en vare der ikke er valgt");
+                }
+                Func.SletValgtVare((Vare)DgVarer.SelectedItem);
+            }
+            catch(ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message, "Fejl ved slet");
             }
         }
     }

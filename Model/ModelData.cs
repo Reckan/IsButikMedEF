@@ -74,6 +74,18 @@ namespace ModelNS
             SaveChanges();
         }
 
+        public void RemoveVare(Vare vare)
+        {
+            Varer.Remove(vare);
+            SaveChanges();
+        }
+
+        public void RemoveBestilling(Bestilling bestilling)
+        {
+            Bestillinger.Remove(bestilling);
+            SaveChanges();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=IsButikMedEF; Trusted_Connection = True; ");
