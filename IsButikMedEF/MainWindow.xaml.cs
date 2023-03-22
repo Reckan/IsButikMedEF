@@ -28,24 +28,29 @@ namespace IsButikMedEF
         public MainWindow()
         {
             InitializeComponent();
-
             DataContext = Func;
+        }
+
+        private void NyValgtVare(Vare vare)
+        {
+            if (vare != null)
+            {
+                Func.ValgtVare = vare;
+            }
+            else
+            {
+                Func.ValgtVare = null;
+            }
         }
 
         private void BtnOpretIs_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                Vare vare = new()
-                {
-                    Navn = TbxNavn.Text,
-                    Beskrivelse = TbxBeskrivelse.Text,
-                    Pris = double.Parse(TbxPris.Text),
+                Func.OpretIs(TbxNavn.Text, double.Parse(TbxPris.Text), TbxBeskrivelse.Text);
 
-                };
-                Func.OpretIs(vare);
                 TbxNavn.Text = "";
-                TbxPris.Text = "1";
+                TbxPris.Text = "";
                 TbxBeskrivelse.Text = "";
 
             }
@@ -57,21 +62,14 @@ namespace IsButikMedEF
 
         private void CbxIs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            NyValgtVare((Vare)CbxIs.SelectedItem);
         }
 
         private void BtnBestil_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                Bestilling bestilling = new()
-                {
-                    Antal = int.Parse(TbxAntal.Text),
-                    Bemærkninger = TbxBemærkninger.Text,
-                    Vare = CbxIs.SelectedItem as Vare,
-
-                };
-                Func.Bestil(bestilling);
+                Func.Bestil((Vare)CbxIs.SelectedItem, int.Parse(TbxAntal.Text), TbxBemærkninger.Text);
                 TbxAntal.Text = "1";
             }
             catch (Exception ex)

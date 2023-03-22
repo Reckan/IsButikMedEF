@@ -9,7 +9,7 @@ namespace ModelNS
         public DbSet<Vare> Varer { get; set; }
         private DbSet<Bestilling> Bestillinger { get; set; }
 
-        public ObservableCollection<Bestilling> BestillingsList
+        private ObservableCollection<Bestilling> Bestillings
         {
             get
             {
@@ -18,6 +18,33 @@ namespace ModelNS
                     Bestillinger.Load();
                 }
                 return Bestillinger.Local.ToObservableCollection();
+            }
+        }
+        private ObservableCollection<Vare> VarerList
+        {
+            get
+            {
+                if (Varer.Local.Count == 0)
+                {
+                    Varer.Load();
+                }
+                return Varer.Local.ToObservableCollection();
+            }
+        }
+        private readonly ReadOnlyObservableCollection<Bestilling> _BestillingsList;
+        public ReadOnlyObservableCollection<Bestilling> BestillingsList
+        {
+            get
+            {
+                return _BestillingsList;
+            }
+        }
+        private readonly ReadOnlyObservableCollection<Vare> _VareList;
+        public ReadOnlyObservableCollection<Vare> VareList
+        {
+            get
+            {
+                return _VareList;
             }
         }
 
@@ -29,13 +56,21 @@ namespace ModelNS
         //    }
         //}
 
-        public ModelData() 
+        public ModelData()
         {
+            _BestillingsList = new ReadOnlyObservableCollection<Bestilling>(Bestillings);
+            _VareList = new ReadOnlyObservableCollection<Vare>(VarerList);
         }
 
         public void AddBestilling(Bestilling bestilling)
         {
-            BestillingsList.Add(bestilling);
+            Bestillinger.Add(bestilling);
+            SaveChanges();
+        }
+
+        public void AddVare(Vare vare)
+        {
+            Varer.Add(vare);
             SaveChanges();
         }
 
