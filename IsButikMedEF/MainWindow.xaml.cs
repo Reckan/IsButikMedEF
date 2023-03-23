@@ -47,8 +47,15 @@ namespace IsButikMedEF
         {
             try
             {
-                Func.OpretIs(TbxNavn.Text, double.Parse(TbxPris.Text), TbxBeskrivelse.Text);
-
+                if (Func.ValgtVareIRidiger == null)
+                {
+                    Func.OpretIs(TbxNavn.Text, double.Parse(TbxPris.Text), TbxBeskrivelse.Text);
+                }
+                else
+                {
+                    Func.RedigerVare(Func.ValgtVareIRidiger, TbxNavn.Text, double.Parse(TbxPris.Text), TbxBeskrivelse.Text);
+                }
+                VareTab.UpdateLayout();
                 TbxNavn.Text = "";
                 TbxPris.Text = "";
                 TbxBeskrivelse.Text = "";
@@ -68,10 +75,22 @@ namespace IsButikMedEF
         {
             try
             {
-                Func.Bestil((Vare)CbxIs.SelectedItem, int.Parse(TbxAntal.Text), TbxBemærkninger.Text);
+                if (Func.ValgtBestillingIRediger == null)
+                {
+                    Func.Bestil((Vare)CbxIs.SelectedItem, int.Parse(TbxAntal.Text), TbxBemærkninger.Text);
+                }
+                else
+                {
+                    Func.RedigerBestilling(Func.ValgtBestillingIRediger, (Vare)CbxIs.SelectedItem, int.Parse(TbxAntal.Text), TbxBemærkninger.Text);
+                    // Change later
+                    //DgBestillinger.Items.Refresh();
+                }
                 TbxAntal.Text = "1";
                 TbxBemærkninger.Text = "";
                 CbxIs.SelectedItem = null;
+                VareTab.UpdateLayout();
+                // Change later
+                //DgVarer.Items.Refresh();
             }
             catch (Exception ex)
             {
@@ -89,7 +108,54 @@ namespace IsButikMedEF
                 }
                 Func.SletValgtVare((Vare)DgVarer.SelectedItem);
             }
-            catch(ArgumentNullException ex)
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message, "Fejl ved slet");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Fejl ved slet");
+            }
+        }
+
+        private void BtnRediger_Click(object sender, RoutedEventArgs e)
+        {
+            Func.ValgtVareIRidiger = DgVarer.SelectedItem as Vare;
+
+            TbxNavn.Text = (Func.ValgtVareIRidiger != null) ? Func.ValgtVareIRidiger.Navn : "";
+            TbxPris.Text = Func.ValgtVareIRidiger?.Pris.ToString();
+            TbxBeskrivelse.Text = Func.ValgtVareIRidiger?.Beskrivelse;
+        }
+
+        private void BtnRedigerBestilling_Click(object sender, RoutedEventArgs e)
+        {
+            Func.ValgtBestillingIRediger = DgBestillinger.SelectedItem as Bestilling;
+
+            foreach (object v in CbxIs.Items)
+            {
+                Vare? vare = v as Vare;
+                if (vare.Id == Func.ValgtBestillingIRediger.Vare.Id)
+                {
+                    CbxIs.SelectedItem = v;
+                    break;
+                }
+            }
+
+            TbxAntal.Text = Func.ValgtBestillingIRediger?.Antal.ToString();
+            TbxBemærkninger.Text = Func.ValgtBestillingIRediger?.Bemærkninger;
+        }
+
+        private void BtnSletBestilling_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (DgBestillinger.SelectedItem == null)
+                {
+                    throw new ArgumentNullException("Kan ikke slette en vare der ikke er valgt");
+                }
+                Func.SletValgtBestilling((Bestilling)DgBestillinger.SelectedItem);
+            }
+            catch (ArgumentNullException ex)
             {
                 MessageBox.Show(ex.Message, "Fejl ved slet");
             }

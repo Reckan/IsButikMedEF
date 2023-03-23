@@ -8,9 +8,9 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TabControl>
-            <TabItem Header="Vare">
+            <TabItem x:Name="VareTab" Header="Vare">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="DgVarer" HorizontalAlignment="Left" Height="293" Margin="281,82,0,0" VerticalAlignment="Top" Width="373" ItemsSource="{Binding VareList}" IsReadOnly="True">
+                    <DataGrid x:Name="DgVarer" HorizontalAlignment="Left" Height="293" Margin="281,82,0,0" VerticalAlignment="Top" Width="373" ItemsSource="{Binding VareList}" IsReadOnly="True" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Vare" Binding="{Binding Navn}"/>
                             <DataGridTextColumn Header="Pris" Binding="{Binding Pris}"/>
@@ -26,6 +26,7 @@
                     <Label x:Name="LabelBeskrivelse" Content="Beskrivelse:" HorizontalAlignment="Left" Margin="54,177,0,0" VerticalAlignment="Top"/>
                     <Button x:Name="BtnOpretIs" Content="Gem" HorizontalAlignment="Left" Margin="177,340,0,0" VerticalAlignment="Top" Height="35" Width="62" Click="BtnGemIs_Click"/>
                     <Button x:Name="BtnSletVare" Content="Slet" HorizontalAlignment="Left" Margin="659,340,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.01,1.407" Height="35" Width="59" Click="BtnSletVare_Click"/>
+                    <Button x:Name="BtnRediger" Content="Rediger" HorizontalAlignment="Left" Height="35" Margin="178,300,0,0" VerticalAlignment="Top" Width="61" Click="BtnRediger_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Bestillinger">
@@ -49,6 +50,8 @@
                     <Label x:Name="LabelTbxAntal" Grid.Column="2" Content="Antal:" HorizontalAlignment="Left" Margin="136,14,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="TbxBemærkninger" Grid.Column="1" HorizontalAlignment="Left" Height="117" Margin="10,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="193" Grid.ColumnSpan="2"/>
                     <Label x:Name="LabelBemærkninger" Grid.Column="2" Content="Bemærkninger:" HorizontalAlignment="Left" Margin="0,81,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="BtnRedigerBestilling" Grid.Column="2" Content="Rediger" HorizontalAlignment="Left" Height="23" Margin="216,72,0,0" VerticalAlignment="Top" Width="68" Click="BtnRedigerBestilling_Click"/>
+                    <Button x:Name="BtnSletBestilling" Grid.Column="2" Content="Slet" HorizontalAlignment="Left" Margin="274,269,0,0" VerticalAlignment="Top" Height="22" Width="68" Click="BtnSletBestilling_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

@@ -7,9 +7,17 @@ namespace TestProject1
     {
         Func Func = new();
         [TestMethod]
-        public void TestMethod1()
+        [ExpectedException(typeof(Exception))]
+        public void TestOpretIsNoName()
         {
             var a = Func.BestillingsList;
+            Func.OpretIs("", 15, "TEST");
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestBestilVare()
+        {
+            Func.Bestil(null, 5, "");
         }
     }
 }

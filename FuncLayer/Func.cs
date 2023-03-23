@@ -74,7 +74,7 @@ namespace FuncLayer
             }
         }
         private Bestilling? _ValgtBestillingIRediger;
-        public Bestilling? ValgtBestilligeIRediger
+        public Bestilling? ValgtBestillingIRediger
         {
             get
             {
@@ -85,19 +85,19 @@ namespace FuncLayer
                 _ValgtBestillingIRediger = value;
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(ValgtBestilligeIRediger)));
+                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(ValgtBestillingIRediger)));
                 }
             }
         }
+        public event PropertyChangedEventHandler? PropertyChanged;
         private void RaisePropertyChanged(string propName)
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
         public void OpretIs(string navn, double pris, string beskrivelse = "")
         {
             Vare vare = new()
@@ -120,26 +120,35 @@ namespace FuncLayer
 
             ValidateBestilling(bestilling);
             Model.AddBestilling(bestilling);
-            PropertyChanged(vare.Bestillinger, new PropertyChangedEventArgs(nameof(vare.Bestillinger.Count)));
+            //PropertyChanged(vare.Bestillinger, new PropertyChangedEventArgs(nameof(vare.Bestillinger.Count)));
             RaisePropertyChanged(nameof(VareList));
         }
         public void SletValgtVare(Vare vare)
         {
+            CheckIfDeletable(vare);
             Model.RemoveVare(vare);
         }
         public void SletValgtBestilling(Bestilling bestilling)
         {
             Model.RemoveBestilling(bestilling);
         }
-        public void RedigerVare(Vare vare, Vare vareInfo)
+        public void RedigerVare(Vare vare, string navn, double pris, string beskrivelse)
         {
-            Model.RemoveVare(vareInfo);
+            vare.Navn = navn;
+            vare.Pris = pris;
+            vare.Beskrivelse = beskrivelse;
+            Model.Update();
             RaisePropertyChanged(nameof(VareList));
-        }
-        public void RedigerBestilling(Bestilling bestilling, Bestilling bestillingsInfo)
-        {
-            Model.RemoveBestilling(bestillingsInfo);
             RaisePropertyChanged(nameof(BestillingsList));
+        }
+        public void RedigerBestilling(Bestilling bestilling, Vare vare, int antal, string bemærkning)
+        {
+            bestilling.Vare = vare;
+            bestilling.Antal = antal;
+            bestilling.Bemærkninger = bemærkning;
+            Model.Update();
+            RaisePropertyChanged(nameof(BestillingsList));
+            RaisePropertyChanged(nameof(VareList));
         }
         private void ValidateVare(Vare vareInfo)
         {
@@ -165,13 +174,23 @@ namespace FuncLayer
         }
         private void ValidateBestilling(Bestilling bestillingsInfo)
         {
-            if(bestillingsInfo.Vare == null)
+            if (bestillingsInfo.Vare == null)
             {
                 throw new ArgumentNullException("Skal Vælge en Vare");
             }
-            if(bestillingsInfo.Antal < 1)
+            if (bestillingsInfo.Antal < 1)
             {
                 throw new Exception("Kan ikke bestille Mindrere end 1 vare");
+            }
+        }
+        private void CheckIfDeletable(Vare vare)
+        {
+            foreach (Bestilling bestilling in BestillingsList)
+            {
+                if (bestilling.Vare.Id == vare.Id)
+                {
+                    throw new Exception("Kan ikke slette en Vare men en eller flere aktiv Bestillinger");
+                }
             }
         }
     }
