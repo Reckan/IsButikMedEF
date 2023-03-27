@@ -13,6 +13,7 @@ namespace TestProject1
             var a = Func.BestillingsList;
             Func.OpretIs("", 15, "TEST");
         }
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestBestilVare()

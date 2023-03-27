@@ -176,7 +176,7 @@ namespace FuncLayer
         {
             if (bestillingsInfo.Vare == null)
             {
-                throw new ArgumentNullException("Skal Vælge en Vare");
+                throw new ArgumentNullException("bestillingsInfo.Vare");
             }
             if (bestillingsInfo.Antal < 1)
             {

@@ -6,7 +6,7 @@ namespace ModelNS
 {
     public class ModelData : DbContext
     {
-        public DbSet<Vare> Varer { get; set; }
+        private DbSet<Vare> Varer { get; set; }
         private DbSet<Bestilling> Bestillinger { get; set; }
 
         private ObservableCollection<Bestilling> Bestillings
